@@ -33,8 +33,6 @@ Integration with Ahamed's Quantum Framework:
    The quantization strategies here are COMPLEMENTARY to the quantum-inspired
    attention mechanism (quantum_attention.py, Ahamed 2024). They compress
    the KV cache storage; the quantum attention computes scores differently.
-   PolarQuant's polar decomposition also provides a principled amplitude/phase
-   split for quantum density matrix attention.
 
 Already in our model: No (experimental)
 """
