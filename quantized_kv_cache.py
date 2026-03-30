@@ -28,13 +28,7 @@ Quantization Methods:
    - Random rotation induces concentrated Beta distribution on coordinates
    - Optimal scalar quantizers per coordinate
    - Near-optimal: within 2.7x of information-theoretic lower bound
-
-Integration with Ahamed's Quantum Framework:
-   The quantization strategies here are COMPLEMENTARY to the quantum-inspired
-   attention mechanism (quantum_attention.py, Ahamed 2024). They compress
-   the KV cache storage; the quantum attention computes scores differently.
-
-Already in our model: No (experimental)
+https://github.com/Mycomembranes/google-tensorops-kvcache/blob/main/quantized_kv_cache.py
 """
 
 import math
@@ -46,25 +40,7 @@ import numpy as np
 
 
 # ---------------------------------------------------------------------------
-# Utility: Fast Walsh-Hadamard Transform
-# ---------------------------------------------------------------------------
-
-def _hadamard_matrix(d: int) -> mx.array:
-    """Construct a normalized Hadamard matrix of size d (must be power of 2).
-
-    Used by PolarQuant and TurboQuant for random preconditioning.
-    The Walsh-Hadamard transform is the same mathematical object as
-    the Hadamard gate in quantum computing (Ahamed, quantum_tensors/gates.py),
-    generalized to d dimensions.
-
-    Reference: PolarQuant (Han et al. 2025), Section 3.1
-    """
-    assert d > 0 and (d & (d - 1)) == 0, f"d must be power of 2, got {d}"
-    H = np.array([[1.0]])
-    while H.shape[0] < d:
-        H = np.block([[H, H], [H, -H]])
-    H = H / math.sqrt(d)  # normalize
-    return mx.array(H.astype(np.float32))
+#
 
 
 def _random_sign_diagonal(d: int, seed: int = 42) -> mx.array:
@@ -514,29 +490,7 @@ class PolarQuantizer(nn.Module):
         # Undo preconditioning
         return self._unprecondition(x_precond)
 
-    def get_amplitude_and_phase(self, x: mx.array) -> Tuple[mx.array, mx.array]:
-        """Extract amplitude (magnitude) and phase (angles) from vectors.
-
-        This provides a principled alternative to the arbitrary half/half
-        split used in QuantumDensityAttention (quantum_attention.py, line 232).
-
-        Instead of splitting head dimensions arbitrarily:
-            q_amp, q_phase = q[..., :half_d], q[..., half_d:]
-
-        PolarQuant decomposes into:
-            r (amplitude/magnitude) and theta (phase/direction)
-
-        This is physically motivated: attention primarily depends on
-        direction (angular similarity), not magnitude.
-
-        Reference: Adaptation of PolarQuant (Han et al. 2025) to
-                   quantum density matrix attention (Ahamed 2024).
-
-        Args:
-            x: Input tensor [..., D]
-
-        Returns:
-            amplitude: Preconditioned magnitude [..., 1]
+   : Preconditioned magnitude [..., 1]
             phase: Preconditioned polar angles [..., D-1]
         """
         x_precond = self._precondition(x)
