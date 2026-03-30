@@ -1,4 +1,24 @@
 [README.md](https://github.com/user-attachments/files/26256900/README.md)
+
+
+ ## Disclaimer                                                                                                                        
+       2                                                                 
+       3 This repository contains reference implementations of published research papers for educational purposes. The quantization met       
+         hods (QJL, PolarQuant, TurboQuant) are implementations of work by Zandieh et al. (2024, 2025) and Han et al. (2025) at Google 
+         Research.                                                                                                                            
+       4                                                                                                                                    
+       5 Certain functions and comments in this repository reference integration points with a proprietary quantum-inspired attention f       
+         ramework (Ahamed 2024-2026). These references describe interfaces only and do not constitute a complete disclosure of the prop     
+         rietary system. The underlying quantum attention, density matrix scoring, phase coherence, QESS encoding, and associated train       
+         ing systems are subject to pending patent applications and are not released under this repository's license.
+       6                                                                                                                                      
+       7 Earlier versions of this repository may have inadvertently included experimental model weight files (`.npz`, `.safetensors`). 
+         These files were artifacts from a private research project, are not part of this release, and are not licensed for any use. If
+          you obtained such files from this repository's git history, you may not use, distribute, or derive work from them.
+       8
+       9 **Intellectual Property Notice:**
+      10 - The Python source code in this repository is licensed under Apache-2.0
+
 # ML/DL Architecture Building Blocks Library
 
 A comprehensive catalog and reference implementation of every known deep learning trick and architecture component, organized for modular model building on MLX / Apple Silicon.
